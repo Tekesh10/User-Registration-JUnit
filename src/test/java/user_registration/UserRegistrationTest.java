@@ -5,15 +5,93 @@ import org.junit.Test;
 
 public class UserRegistrationTest {
     @Test
-    public void givenCorrectDetailsReturnHappy() {
-        UserRegistration validate = new UserRegistration();
-        String result = validate.userRegistrationValidation("Aman","Khan","aman-khan@gmail.co1.in","91 1234567890","khanAman@1");
-        Assert.assertEquals("Happy",result);
+    public void givenProperFirstNameShouldReturnTrue() {
+        boolean result = UserRegistration.validateFirstName("Aman");
+        Assert.assertTrue(result);
     }
     @Test
-    public void givenIncorrectDetailsReturnSad() {
-        UserRegistration validate = new UserRegistration();
-        String result = validate.userRegistrationValidation("aman","khan","aman-Khan@gmail.co.in1","919087654321","Aman@1");
-        Assert.assertEquals("Sad",result);
+    public void givenImproperFirstNameShouldReturnInvalidMessage() {
+        try {
+            new UserRegistration();
+            UserRegistration.validateFirstName("aman");
+        } catch (InvalidUserDetailsException e) {
+            Assert.assertEquals(InvalidUserDetailsException.ExceptionType.INVALID_FIRST_NAME, e.exceptionType);
+            System.out.println(e.getMessage());
+        }
+    }
+    @Test
+    public void givenProperLastNameShouldReturnTure() {
+        boolean result = UserRegistration.validateLastName("Khan");
+        Assert.assertTrue(result);
+    }
+    @Test
+    public void givenImproperLastNameShouldReturnInvalidMessage() {
+        try {
+            new UserRegistration();
+            UserRegistration.validateLastName("khan");
+        } catch (InvalidUserDetailsException e) {
+            Assert.assertEquals(InvalidUserDetailsException.ExceptionType.INVALID_LAST_NAME, e.exceptionType);
+            System.out.println(e.getMessage());
+        }
+    }
+    @Test
+    public void givenProperEmailShouldReturnTure() {
+        boolean result = UserRegistration.validateEmail("aman-khan@gmail.co1.in");
+        Assert.assertTrue(result);
+    }
+    @Test
+    public void givenImproperEmailShouldReturnInvalidMessage() {
+        try {
+            new UserRegistration();
+            UserRegistration.validateEmail("aman-Khan@gmail.co.in1");
+        } catch (InvalidUserDetailsException e) {
+            Assert.assertEquals(InvalidUserDetailsException.ExceptionType.INVALID_EMAIL, e.exceptionType);
+            System.out.println(e.getMessage());
+        }
+    }
+    @Test
+    public void givenProperPhoneNumberShouldReturnTure() {
+        boolean result = UserRegistration.validatePhoneNumber("91 1234567890");
+        Assert.assertTrue(result);
+    }
+    @Test
+    public void givenImproperPhoneNumberShouldReturnInvalidMessage() {
+        try {
+            new UserRegistration();
+            UserRegistration.validatePhoneNumber("919087654321");
+        } catch (InvalidUserDetailsException e) {
+            Assert.assertEquals(InvalidUserDetailsException.ExceptionType.INVALID_MOBILE_NUMBER, e.exceptionType);
+            System.out.println(e.getMessage());
+        }
+    }
+    @Test
+    public void givenProperPasswordShouldReturnTure() {
+        boolean result = UserRegistration.validatePassword("khanAman@1");
+        Assert.assertTrue(result);
+    }
+    @Test
+    public void givenImproperPasswordShouldReturnInvalidMessage() {
+        try {
+            new UserRegistration();
+            UserRegistration.validatePassword("Aman@1");
+        } catch (InvalidUserDetailsException e) {
+            Assert.assertEquals(InvalidUserDetailsException.ExceptionType.INVALID_PASSWORD, e.exceptionType);
+            System.out.println(e.getMessage());
+        }
+    }
+    @Test
+    public void givenDetails_WhenProper_ShouldReturnHAPPY() {
+        UserRegistration validator = new UserRegistration();
+        String result = validator.userRegistrationValidation("Aman","Khan","aman-khan@gmail.co1.in","91 1234567890","khanAman@1");
+        Assert.assertEquals("Happy", result);
+    }
+    @Test
+    public void givenDetails_WhenImproper_ShouldReturnSAD() {
+        UserRegistration validator = new UserRegistration();
+        try {
+            validator.userRegistrationValidation("aman","khan","aman-Khan@gmail.co.in1","919087654321","Aman@1");
+        } catch (InvalidUserDetailsException e) {
+            System.out.println("Invalid Details");
+        }
     }
 }
